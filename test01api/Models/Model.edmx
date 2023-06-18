@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище dbStirkaModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Drying">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Powder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusOfWash">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="LastName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IDRole" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wash">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="IDNumberOfMachine" Type="int" Nullable="false" />
+          <Property Name="IDPowder" Type="int" Nullable="false" />
+          <Property Name="IDDrying" Type="int" Nullable="false" />
+          <Property Name="IDUser" Type="int" Nullable="false" />
+          <Property Name="IDStatusOfWash" Type="int" Nullable="false" />
+          <Property Name="Cost" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WashMachine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TItle" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="IDRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wash_Drying">
+          <End Role="Drying" Type="Self.Drying" Multiplicity="1" />
+          <End Role="Wash" Type="Self.Wash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drying">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wash">
+              <PropertyRef Name="IDDrying" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wash_Powder">
+          <End Role="Powder" Type="Self.Powder" Multiplicity="1" />
+          <End Role="Wash" Type="Self.Wash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Powder">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wash">
+              <PropertyRef Name="IDPowder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wash_StatusOfWash">
+          <End Role="StatusOfWash" Type="Self.StatusOfWash" Multiplicity="1" />
+          <End Role="Wash" Type="Self.Wash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusOfWash">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wash">
+              <PropertyRef Name="IDStatusOfWash" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wash_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Wash" Type="Self.Wash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wash">
+              <PropertyRef Name="IDUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wash_WashMachine">
+          <End Role="WashMachine" Type="Self.WashMachine" Multiplicity="1" />
+          <End Role="Wash" Type="Self.Wash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WashMachine">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wash">
+              <PropertyRef Name="IDNumberOfMachine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище dbStirkaModelContainer">
+          <EntitySet Name="Drying" EntityType="Self.Drying" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Powder" EntityType="Self.Powder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusOfWash" EntityType="Self.StatusOfWash" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wash" EntityType="Self.Wash" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WashMachine" EntityType="Self.WashMachine" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wash_Drying" Association="Self.FK_Wash_Drying">
+            <End Role="Drying" EntitySet="Drying" />
+            <End Role="Wash" EntitySet="Wash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wash_Powder" Association="Self.FK_Wash_Powder">
+            <End Role="Powder" EntitySet="Powder" />
+            <End Role="Wash" EntitySet="Wash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wash_StatusOfWash" Association="Self.FK_Wash_StatusOfWash">
+            <End Role="StatusOfWash" EntitySet="StatusOfWash" />
+            <End Role="Wash" EntitySet="Wash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wash_User" Association="Self.FK_Wash_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Wash" EntitySet="Wash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wash_WashMachine" Association="Self.FK_Wash_WashMachine">
+            <End Role="WashMachine" EntitySet="WashMachine" />
+            <End Role="Wash" EntitySet="Wash" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbStirkaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Drying">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Wash" Relationship="Self.FK_Wash_Drying" FromRole="Drying" ToRole="Wash" />
+        </EntityType>
+        <EntityType Name="Powder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Wash" Relationship="Self.FK_Wash_Powder" FromRole="Powder" ToRole="Wash" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="StatusOfWash">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Wash" Relationship="Self.FK_Wash_StatusOfWash" FromRole="StatusOfWash" ToRole="Wash" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IDRole" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Wash" Relationship="Self.FK_Wash_User" FromRole="User" ToRole="Wash" />
+        </EntityType>
+        <EntityType Name="Wash">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="IDNumberOfMachine" Type="Int32" Nullable="false" />
+          <Property Name="IDPowder" Type="Int32" Nullable="false" />
+          <Property Name="IDDrying" Type="Int32" Nullable="false" />
+          <Property Name="IDUser" Type="Int32" Nullable="false" />
+          <Property Name="IDStatusOfWash" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Drying" Relationship="Self.FK_Wash_Drying" FromRole="Wash" ToRole="Drying" />
+          <NavigationProperty Name="Powder" Relationship="Self.FK_Wash_Powder" FromRole="Wash" ToRole="Powder" />
+          <NavigationProperty Name="StatusOfWash" Relationship="Self.FK_Wash_StatusOfWash" FromRole="Wash" ToRole="StatusOfWash" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Wash_User" FromRole="Wash" ToRole="User" />
+          <NavigationProperty Name="WashMachine" Relationship="Self.FK_Wash_WashMachine" FromRole="Wash" ToRole="WashMachine" />
+        </EntityType>
+        <EntityType Name="WashMachine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TItle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Wash" Relationship="Self.FK_Wash_WashMachine" FromRole="WashMachine" ToRole="Wash" />
+        </EntityType>
+        <Association Name="FK_Wash_Drying">
+          <End Role="Drying" Type="Self.Drying" Multiplicity="1" />
+          <End Role="Wash" Type="Self.Wash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drying">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wash">
+              <PropertyRef Name="IDDrying" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wash_Powder">
+          <End Role="Powder" Type="Self.Powder" Multiplicity="1" />
+          <End Role="Wash" Type="Self.Wash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Powder">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wash">
+              <PropertyRef Name="IDPowder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="IDRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wash_StatusOfWash">
+          <End Role="StatusOfWash" Type="Self.StatusOfWash" Multiplicity="1" />
+          <End Role="Wash" Type="Self.Wash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusOfWash">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wash">
+              <PropertyRef Name="IDStatusOfWash" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wash_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Wash" Type="Self.Wash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wash">
+              <PropertyRef Name="IDUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wash_WashMachine">
+          <End Role="WashMachine" Type="Self.WashMachine" Multiplicity="1" />
+          <End Role="Wash" Type="Self.Wash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WashMachine">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wash">
+              <PropertyRef Name="IDNumberOfMachine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbStirkaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Drying" EntityType="Self.Drying" />
+          <EntitySet Name="Powder" EntityType="Self.Powder" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="StatusOfWash" EntityType="Self.StatusOfWash" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="Wash" EntityType="Self.Wash" />
+          <EntitySet Name="WashMachine" EntityType="Self.WashMachine" />
+          <AssociationSet Name="FK_Wash_Drying" Association="Self.FK_Wash_Drying">
+            <End Role="Drying" EntitySet="Drying" />
+            <End Role="Wash" EntitySet="Wash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wash_Powder" Association="Self.FK_Wash_Powder">
+            <End Role="Powder" EntitySet="Powder" />
+            <End Role="Wash" EntitySet="Wash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wash_StatusOfWash" Association="Self.FK_Wash_StatusOfWash">
+            <End Role="StatusOfWash" EntitySet="StatusOfWash" />
+            <End Role="Wash" EntitySet="Wash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wash_User" Association="Self.FK_Wash_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Wash" EntitySet="Wash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wash_WashMachine" Association="Self.FK_Wash_WashMachine">
+            <End Role="WashMachine" EntitySet="WashMachine" />
+            <End Role="Wash" EntitySet="Wash" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище dbStirkaModelContainer" CdmEntityContainer="dbStirkaEntities">
+          <EntitySetMapping Name="Drying">
+            <EntityTypeMapping TypeName="dbStirkaModel.Drying">
+              <MappingFragment StoreEntitySet="Drying">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Powder">
+            <EntityTypeMapping TypeName="dbStirkaModel.Powder">
+              <MappingFragment StoreEntitySet="Powder">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="dbStirkaModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusOfWash">
+            <EntityTypeMapping TypeName="dbStirkaModel.StatusOfWash">
+              <MappingFragment StoreEntitySet="StatusOfWash">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="dbStirkaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="dbStirkaModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IDRole" ColumnName="IDRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wash">
+            <EntityTypeMapping TypeName="dbStirkaModel.Wash">
+              <MappingFragment StoreEntitySet="Wash">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDNumberOfMachine" ColumnName="IDNumberOfMachine" />
+                <ScalarProperty Name="IDPowder" ColumnName="IDPowder" />
+                <ScalarProperty Name="IDDrying" ColumnName="IDDrying" />
+                <ScalarProperty Name="IDUser" ColumnName="IDUser" />
+                <ScalarProperty Name="IDStatusOfWash" ColumnName="IDStatusOfWash" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WashMachine">
+            <EntityTypeMapping TypeName="dbStirkaModel.WashMachine">
+              <MappingFragment StoreEntitySet="WashMachine">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TItle" ColumnName="TItle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
